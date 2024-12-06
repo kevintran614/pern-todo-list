@@ -69,6 +69,19 @@ app.put("/todos/:id", async (req, res) => {
 });
 
 // delete a todo
+app.delete("/todos/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteTodo = await pool.query(
+      "DELETE FROM todo WHERE todo_id = ($1)",
+      [id]
+    );
+
+    res.json(`Successfully deleted todo_id: ${id}`);
+  } catch (error) {
+    console.log(`DELETE route: delete todo error, ${error.message}`);
+  }
+});
 
 app.listen(port, () => {
   console.log(`Express Server listening on Port ${port}`);
